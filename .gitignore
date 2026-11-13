@@ -50,3 +50,37 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+# Keil build files
+OBJ/
+Objects/
+Listings/
+DebugConfig/
+RTE/
+
+# Build outputs
+*.hex
+*.axf
+*.bin
+*.map
+*.o
+*.d
+*.crf
+*.lst
+*.dep
+*.htm
+*.lnp
+*.sct
+*.build_log.htm
+
+# User layout and debugger files
+*.uvguix.*
+*.uvoptx
+EventRecorderStub.scvd
+JLinkSettings.ini
+
+# Ignore the old LED test project (Keep local, hide from GitHub)
+LED_Test.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
