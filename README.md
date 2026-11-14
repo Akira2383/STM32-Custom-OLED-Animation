@@ -1,33 +1,45 @@
-# STM32 Custom OLED Animation
+# STM32 Custom OLED UI & State Machine
 
-This project drives a 0.96-inch I2C OLED (SSD1306) using an STM32F103C8T6. 
+This project is an interactive display system based on the **STM32F103C8T6** microcontroller, driving a 0.96-inch I2C OLED (SSD1306). 
 
-Instead of stopping at basic text display, I wrote a custom rendering function to display a full 128x64 bitmap and added a frame animation in the main loop. It currently runs entirely on a power bank without a PC connection.
+Unlike basic text-only demos, this project implements a complete **Finite State Machine (FSM)** architecture to handle custom bitmap rendering, boot animations, and an interactive terminal menu UI.
 
-## Hardware Connection
+##  UI Showcase
 
-Connected using flying wires (no breadboard, for better stability).
-- VCC -> 3.3V
-- GND -> GND
-- SCL -> PB6
-- SDA -> PB7
+The system boots up with a custom 128x64 Rhodes Island logo, featuring a normal/inverted blinking animation. After the boot sequence, it transitions smoothly into an "Arknights" terminal-style menu with a moving cursor.
 
-![Hardware Setup](images/setup.jpg)
+![UI Showcase](https://cdn.jsdelivr.net/gh/Akira2383/STM32-Custom-OLED-Animation@main/images/ui_showcase.gif)
 
-## Result
+##  Key Features
 
-The display boots up with the Rhodes Island logo. The `while(1)` loop toggles between normal and inverted display modes to create a blinking effect.
+*   **Custom Bitmap Rendering:** Implemented a low-level `ShowPicture` function to parse 1024-byte hex arrays into OLED GRAM pixels, displaying a full-screen 128x64 image.
+*   **Finite State Machine (FSM):** Decoupled the UI logic into distinct states (`STATE_BOOT` and `STATE_MENU`), ensuring smooth transitions and preventing rendering conflicts.
+*   **Hardware-to-Software I2C Fallback:** Attempted to use the STM32 hardware I2C peripheral (`I2C1`). Due to the infamous "F103 I2C Bus Deadlock" hardware bug causing the system to hang, I gracefully rolled back to a stable software-simulated I2C driver. The UI logic remains completely independent of the underlying driver.
+*   **Professional UI/UX Design:** Implemented menu cursor loops with intentional delays for a breathing effect, simulating a real embedded product interface.
 
-![OLED Display](images/oled_logo.jpg)
+##  Hardware Setup
 
-## How It Works
+The STM32 is connected to the OLED using flying wires (no breadboard for better stability).
+*   **VCC**: 3.3V
+*   **GND**: GND
+*   **SCL**: PB6 (Software I2C)
+*   **SDA**: PB7 (Software I2C)
 
-The core of this project is the `ShowPicture` function in `main.c`. 
-I used `PCtoLCD2002` to generate the 1024-byte hex array for the 128x64 image. The function iterates through the array, parses the bits, and calls `OLED_DrawPoint` to paint each pixel directly into the screen's GRAM. 
+![Hardware Setup](https://cdn.jsdelivr.net/gh/Akira2383/STM32-Custom-OLED-Animation@main/images/setup.jpg)
 
-The animation is simply a loop that redraws the image with `mode=1` (normal), delays, and redraws with `mode=0` (inverted).
+##  Tech Stack & Architecture
 
-## Build
+*   **MCU**: STM32F103C8T6 (ARM Cortex-M3)
+*   **Toolchain**: Keil MDK (ARMCC v5)
+*   **Version Control**: Git / GitHub Desktop
+*   **Image Processing**: PCtoLCD2002 (Column-by-column C51 format)
 
-1. Open `USER/OLED.uvprojx` in Keil MDK (v5).
-2. Build (F7) and flash via DAP-Link (F8).
+**Architecture Note:** 
+The `main.c` handles only the application logic (FSM and UI rendering). The `oled.c` acts as the hardware abstraction layer (HAL), handling the I2C communication. This decoupling allows for easy future upgrades (e.g., switching to SPI or a different screen).
+
+## How to Build
+
+1. Clone this repository.
+2. Open `USER/OLED.uvprojx` in Keil MDK.
+3. Build the project (`F7`).
+4. Flash the code to the board using DAP-Link or ST-Link (`F8`).

@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "oledfont.h"
 #include "delay.h"
-
+#include "stm32f10x_i2c.h"
 u8 OLED_GRAM[144][8];
 
 //反显函数
@@ -107,6 +107,42 @@ void OLED_WR_Byte(u8 dat,u8 mode)
 	Send_Byte(dat);
 	I2C_WaitAck();
 	I2C_Stop();
+//	u16 timeout = 0;
+
+//    // 1. ? START
+//    I2C_GenerateSTART(I2C1, ENABLE);
+//    timeout = 0;
+//    while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT)) {
+//        timeout++;
+//        if(timeout > 50000) return; // ????!
+//    }
+
+//    // 2. ???
+//    I2C_Send7bitAddress(I2C1, 0x3C, I2C_Direction_Transmitter); // ??? 0x3C
+//    timeout = 0;
+//    while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)) {
+//        timeout++;
+//        if(timeout > 50000) return; // ???????????ACK
+//    }
+
+//    // 3. ????
+//    I2C_SendData(I2C1, mode ? 0x40 : 0x00);
+//    timeout = 0;
+//    while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTING)) {
+//        timeout++;
+//        if(timeout > 50000) return;
+//    }
+
+//    // 4. ???
+//    I2C_SendData(I2C1, dat);
+//    timeout = 0;
+//    while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) {
+//        timeout++;
+//        if(timeout > 50000) return;
+//    }
+
+//     5. ? STOP
+//    I2C_GenerateSTOP(I2C1, ENABLE);
 }
 
 //开启OLED显示 
@@ -445,6 +481,30 @@ void OLED_ShowPicture(u8 x,u8 y,u8 sizex,u8 sizey,u8 BMP[],u8 mode)
      }
 	 }
 }
+//void I2C_Hardware_Init(void)
+//{
+//	GPIO_InitTypeDef GPIO_InitStructure;
+//	I2C_InitTypeDef I2C_InitStructure;
+//	
+//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+//	RCC_APB1PeriphClockCmd (RCC_APB1Periph_I2C1,ENABLE);
+//	
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 |GPIO_Pin_7;
+//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//	GPIO_Init(GPIOB,&GPIO_InitStructure);
+//	
+//	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+//	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+//	I2C_InitStructure.I2C_OwnAddress1 = 0x0A;
+//	I2C_InitStructure.I2C_Ack =I2C_Ack_Enable;
+//	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+//	I2C_InitStructure.I2C_ClockSpeed = 100000;
+//	I2C_Init(I2C1,&I2C_InitStructure);
+//	
+//	I2C_Cmd(I2C1,ENABLE);
+//}	
+
 //OLED的初始化
 void OLED_Init(void)
 {
@@ -456,16 +516,16 @@ void OLED_Init(void)
  	GPIO_Init(GPIOB, &GPIO_InitStructure);	  //初始化PA0,1
  	GPIO_SetBits(GPIOB,GPIO_Pin_6|GPIO_Pin_7);
 
-	//GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;	 
- 	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
-	//GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz
- 	//GPIO_Init(GPIOA, &GPIO_InitStructure);	  //初始化PA2
- 	//GPIO_SetBits(GPIOA,GPIO_Pin_2);
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;	 
+// 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz
+// 	GPIO_Init(GPIOA, &GPIO_InitStructure);	  //初始化PA2
+// 	GPIO_SetBits(GPIOA,GPIO_Pin_2);
 	
 	//OLED_RES_Clr();
 	//delay_ms(200);
 	//OLED_RES_Set();
-	
+//	I2C_Hardware_Init();
 	OLED_WR_Byte(0xAE,OLED_CMD);//--turn off oled panel
 	OLED_WR_Byte(0x00,OLED_CMD);//---set low column address
 	OLED_WR_Byte(0x10,OLED_CMD);//---set high column address
