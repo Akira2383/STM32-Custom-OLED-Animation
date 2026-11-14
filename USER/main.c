@@ -22,25 +22,84 @@ void ShowPicture(u8 x, u8 y, u8 width, u8 height, const u8 *pic, u8 mode)
         }
     }
 }
-	int main(void)
+
+#define STATE_BOOT  0
+#define STATE_MENU  1
+
+
+#define MENU_TERMINAL 0
+#define MENU_SQUADS   1
+#define MENU_OPERATOR 2
+#define MENU_STORE    3
+#define MENU_BASE     4
+
+
+int main(void)
 {
-	delay_init();
-	OLED_Init();
-	ShowPicture(0, 0, 128, 64, logo_bmp,1);
-  OLED_Refresh();
-	while(1)
-	{
-		    
-        
-        ShowPicture(0, 0, 128, 64, logo_bmp, 1); 
-        OLED_Refresh();
-        delay_ms(1000); 
+    
+    u8 current_state = STATE_BOOT;
+    u8 boot_timer = 0;
+    u8 menu_cursor = MENU_TERMINAL;
+    u8 menu_timer = 0;
 
+    delay_init();
+    OLED_Init();
+    OLED_Clear();
+
+    while(1)
+    {
+        if (current_state == STATE_BOOT)
+        {
+            delay_ms(500); 
+            
+            
+            ShowPicture(0, 0, 128, 64, logo_bmp, 1);
+            OLED_Refresh();
+            delay_ms(1000); 
+            
+           
+            ShowPicture(0, 0, 128, 64, logo_bmp, 0);
+            OLED_Refresh();
+            delay_ms(1500); 
+
+            boot_timer++;
+            
+            
+            if (boot_timer >= 2) 
+            {
+                current_state = STATE_MENU;
+                OLED_Clear(); 
+            }
+        }
         
-        ShowPicture(0, 0, 128, 64, logo_bmp, 0); 
-        OLED_Refresh();
-        delay_ms(1000); 
-   
-	}
+        else if (current_state == STATE_MENU)
+        {
+            delay_ms(200); 
+            menu_timer++;
+            
+           
+            if (menu_timer >= 5) 
+            {
+                menu_timer = 0;
+                menu_cursor++; 
+                if (menu_cursor > MENU_BASE) 
+                {
+                    menu_cursor = MENU_TERMINAL; 
+                }
+                OLED_Clear(); 
+            }
+
+            
+            OLED_ShowString(0, 0, (u8 *) "Terminal", 12, 1);
+            OLED_ShowString(0, 12,(u8 *) "Squads", 12, 1);
+            OLED_ShowString(0, 24,(u8 *)"Operator", 12, 1);
+            OLED_ShowString(0, 36,(u8 *) "Store", 12, 1);
+            OLED_ShowString(0, 48,(u8 *) "Base", 12, 1);
+
+           
+            OLED_ShowString(110, menu_cursor * 12, (u8 *)"<", 12, 1); 
+
+            OLED_Refresh(); 
+        }
+    }
 }
-
