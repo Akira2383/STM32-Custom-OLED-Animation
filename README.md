@@ -8,7 +8,7 @@ Unlike basic text-only demos, this project implements a complete **Finite State 
 
 The system boots up with a custom 128x64 Rhodes Island logo, featuring a normal/inverted blinking animation. After the boot sequence, it transitions smoothly into an "Arknights" terminal-style menu with a moving cursor.
 
-![UI Showcase](https://cdn.jsdelivr.net/gh/Akira2383/STM32-Custom-OLED-Animation@main/images/ui_showcase.gif)
+![UI Showcase](https://cdn.jsdelivr.net/gh/Akira2383/STM32-OLED-Interactive-UI@main/images/ui_showcase.gif)
 
 ##  Key Features
 
@@ -25,7 +25,7 @@ The STM32 is connected to the OLED using flying wires (no breadboard for better 
 *   **SCL**: PB6 (Software I2C)
 *   **SDA**: PB7 (Software I2C)
 
-![Hardware Setup](https://cdn.jsdelivr.net/gh/Akira2383/STM32-Custom-OLED-Animation@main/images/setup.jpg)
+![Hardware Setup](https://cdn.jsdelivr.net/gh/Akira2383/STM32-OLED-Interactive-UI@main/images/setup.jpg)
 
 ##  Tech Stack & Architecture
 
