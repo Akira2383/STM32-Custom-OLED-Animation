@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\STM32F10x_FWLib\inc;..\USER;..\HARDWARE\OLED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;.\API;.\API\mqtt;.\API\LCD1.8;.\API;..\HARDWARE\OLED</IncludePath>
+              <IncludePath>..\CORE;..\STM32F10x_FWLib\inc;..\USER;..\HARDWARE\OLED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;.\API;.\API\mqtt;.\API\LCD1.8</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -673,6 +673,26 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>images.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\images.c</FilePath>
+            </File>
+            <File>
+              <FileName>images.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\images.h</FilePath>
+            </File>
+            <File>
+              <FileName>ui.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ui.h</FilePath>
+            </File>
+            <File>
+              <FileName>ui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ui.c</FilePath>
             </File>
           </Files>
         </Group>
