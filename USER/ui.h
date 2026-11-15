@@ -12,8 +12,10 @@
 #define MENU_STORE    3
 #define MENU_BASE     4
 
+#define STATE_SENSOR_PAGE 2 
 
 void UI_DrawBMP_Fast(u8 x,u8 y,u8 width,u8 height, const u8 *pic, u8 mode);
 void UI_Draw_Menu(u8 cursor_pos);
-
+void UI_Draw_Sensor_Page(u16 light_val);
 #endif
+

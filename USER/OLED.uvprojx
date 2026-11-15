@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\STM32F10x_FWLib\inc;..\USER;..\HARDWARE\OLED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;.\API;.\API\mqtt;.\API\LCD1.8</IncludePath>
+              <IncludePath>..\CORE;..\STM32F10x_FWLib\inc;..\USER;..\HARDWARE\OLED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;.\API;.\API\mqtt;.\API\LCD1.8;..\STM32F10x_FWLib\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -693,6 +693,16 @@
               <FileName>ui.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\ui.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\bsp_adc.h</FilePath>
             </File>
           </Files>
         </Group>
