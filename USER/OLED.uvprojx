@@ -704,17 +704,20 @@
               <FileType>5</FileType>
               <FilePath>.\bsp_adc.h</FilePath>
             </File>
+            <File>
+              <FileName>key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\key.h</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\key.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>API</GroupName>
-          <Files>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\API\key.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>HARDWARE</GroupName>
