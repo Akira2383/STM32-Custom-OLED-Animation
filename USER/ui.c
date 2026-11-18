@@ -1,7 +1,6 @@
 #include "ui.h"
 #include "oled.h"
 #include "images.h"
-#include "stdio.h" 
 
 	void UI_DrawBMP_Fast(u8 x,u8 y,u8 width,u8 height, const u8 *pic, u8 mode)
 	{
@@ -42,51 +41,59 @@ void UI_Draw_Menu(u8 cursor_pos)
     OLED_Refresh(); 
 }
 
-
-
-
-void UI_Draw_Sensor_Page(u16 light_val)
+static void UI_ClearRegion(u8 y_start, u8 y_end)
 {
-    u8 str_buf[20];
-    u8 bar_width = 0;
-    u8 i;
+    u16 x;
+    u16 y;
 
-    
-    OLED_ShowString(0, 0, (u8 *)"Light Sensor", 16, 1);
-    
-    
-    sprintf((char *)str_buf, "Val: %d", light_val);
-    OLED_ShowString(0, 20, str_buf, 16, 1);
-    
-   
-    bar_width = (u8)((light_val * 100) / 4095);
-    
-   
-    for (i = 0; i < 100; i++) {
-        OLED_DrawPoint(10 + i, 42, 1);
-    }
-   
-    for (i = 0; i < 100; i++) {
-        OLED_DrawPoint(10 + i, 55, 1);
-    }
-   
-    for (i = 0; i < 14; i++) {
-        OLED_DrawPoint(10, 42 + i, 1);
-    }
-   
-    for (i = 0; i < 14; i++) {
-        OLED_DrawPoint(109, 42 + i, 1);
-    }
-    
-   
-    for (i = 0; i < bar_width; i++) 
+    for (x = 0; x < 128; x++)
     {
-        u8 j;
-        
-        for (j = 0; j < 12; j++) {
-            OLED_DrawPoint(11 + i, 43 + j, 1);
+        for (y = y_start; y <= y_end; y++)
+        {
+            OLED_DrawPoint((u8)x, (u8)y, 0);
         }
     }
-    
-    OLED_Refresh(); 
+}
+
+void UI_ClearAudioRegions(void)
+{
+    UI_ClearRegion(0, 31);
+    UI_ClearRegion(32, 63);
+}
+
+void UI_DrawWaveform(const u8 samples[ADC_SAMPLE_COUNT])
+{
+    u8 i;
+    u8 previous_y = (u8)(31 - (samples[0] >> 3));
+
+    UI_ClearRegion(0, 31);
+    OLED_DrawPoint(0, previous_y, 1);
+    for (i = 1; i < ADC_SAMPLE_COUNT; i++)
+    {
+        u8 y = (u8)(31 - (samples[i] >> 3));
+        OLED_DrawLine((u8)(i - 1), previous_y, i, y, 1);
+        previous_y = y;
+    }
+}
+
+void UI_DrawSpectrum(const u8 bars[SPECTRUM_BAR_COUNT])
+{
+    u8 j;
+
+    UI_ClearRegion(32, 63);
+    for (j = 0; j < SPECTRUM_BAR_COUNT; j++)
+    {
+        u8 height = bars[j];
+        u8 x;
+        u8 y;
+
+        if (height > 32) height = 32;
+        for (x = (u8)(j * 8); x < (u8)(j * 8 + 8); x++)
+        {
+            for (y = (u8)(64 - height); y < 64; y++)
+            {
+                OLED_DrawPoint(x, y, 1);
+            }
+        }
+    }
 }

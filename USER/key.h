@@ -28,6 +28,9 @@ typedef struct {
 
 extern Key_t key_next;  
 extern Key_t key_enter; 
+extern Key_t key_up;
+extern Key_t key_left;
+extern Key_t key_right;
 
 void Key_Init(void);
 void Key_Scan(Key_t *key);

@@ -3,10 +3,16 @@
 
 Key_t key_next;
 Key_t key_enter;
+Key_t key_up;
+Key_t key_left;
+Key_t key_right;
 
 
 u8 Read_PA1(void) { return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1); }
 u8 Read_PA2(void) { return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_2); }
+u8 Read_PA3(void) { return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3); }
+u8 Read_PA5(void) { return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5); }
+u8 Read_PA6(void) { return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6); }
 
 void Key_Init(void)
 {
@@ -15,7 +21,8 @@ void Key_Init(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 |
+                                  GPIO_Pin_5 | GPIO_Pin_6;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; 
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
@@ -29,6 +36,22 @@ void Key_Init(void)
     key_enter.event = KEY_EVENT_NONE;
     key_enter.counter = 0;
     key_enter.read_pin = Read_PA2;
+
+    key_up.state = KEY_IDLE;
+    key_up.event = KEY_EVENT_NONE;
+    key_up.counter = 0;
+    key_up.read_pin = Read_PA3;
+
+
+    key_left.state = KEY_IDLE;
+    key_left.event = KEY_EVENT_NONE;
+    key_left.counter = 0;
+    key_left.read_pin = Read_PA5;
+
+    key_right.state = KEY_IDLE;
+    key_right.event = KEY_EVENT_NONE;
+    key_right.counter = 0;
+    key_right.read_pin = Read_PA6;
 }
 
 
