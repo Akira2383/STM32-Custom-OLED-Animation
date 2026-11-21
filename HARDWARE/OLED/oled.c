@@ -201,9 +201,24 @@ void OLED_Clear(void)
 //x:0~127
 //y:0~63
 //t:1 填充 0,清空	
+void OLED_Clear_GRAM(void)
+{
+	u8 i, n;
+	for (i = 0; i < 8; i++)
+	{
+		for (n = 0; n < 128; n++)
+		{
+			OLED_GRAM[n][i] = 0;
+		}
+	}
+}
+
 void OLED_DrawPoint(u8 x,u8 y,u8 t)
 {
 	u8 i,m,n;
+
+	if (x >= 144 || y >= 64) return;   /* 越界保护：防止踩到 GRAM 之外的内存 */
+
 	i=y/8;
 	m=y%8;
 	n=1<<m;
@@ -233,7 +248,7 @@ void OLED_DrawLine(u8 x1,u8 y1,u8 x2,u8 y2,u8 mode)
 	else {incx=-1;delta_x=-delta_x;}
 	if(delta_y>0)incy=1;
 	else if (delta_y==0)incy=0;//水平线 
-	else {incy=-1;delta_y=-delta_x;}
+	else {incy=-1;delta_y=-delta_y;}
 	if(delta_x>delta_y)distance=delta_x; //选取基本增量坐标轴 
 	else distance=delta_y;
 	for(t=0;t<distance+1;t++)
