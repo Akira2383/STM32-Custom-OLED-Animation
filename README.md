@@ -6,7 +6,7 @@ Unlike basic text-only demos, this project implements a complete **Finite State 
 
 ##  UI Showcase
 
-The system boots up with a custom 128x64 Rhodes Island logo, featuring a normal/inverted blinking animation. After the boot sequence, it transitions smoothly into an "Arknights" terminal-style menu with a moving cursor. From the menu you can launch the Snake game (Terminal) or open the live sensor page (Base).
+The system boots up with a custom 128x64 Rhodes Island logo, featuring a normal/inverted blinking animation. After the boot sequence, it transitions smoothly into an "Arknights" terminal-style menu with a moving cursor. From the menu you can launch the Snake game (Terminal), or open the live sensor page (Base).
 
 ![UI Showcase](https://cdn.jsdelivr.net/gh/Akira2383/STM32-OLED-Interactive-UI@main/images/ui_showcase.gif)
 
